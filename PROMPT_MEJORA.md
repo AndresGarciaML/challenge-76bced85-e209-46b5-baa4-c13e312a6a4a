@@ -1,8 +1,5 @@
 # Prompt para Mejorar el Codigo Base
 
-Copia y pega el siguiente contenido completo en un asistente de IA (Claude, ChatGPT, etc.)
-para obtener un ZIP con el proyecto corregido y listo para compilar.
-
 ---
 
 ```
@@ -147,7 +144,7 @@ export class ProductListComponent implements OnInit {
 
 // === ARCHIVO: src/app/components/product-list/product-list.component.html ===
 <div *ngFor="let product of products">
-  <h2>{{ product.name }}</h2>
+  <h2>{{ product.title }}</h2>
   <p>{{ product.description }}</p>
   <p>{{ product.price | currency }}</p>
 </div>
@@ -162,7 +159,7 @@ import { Product } from '../models/product.model';
   providedIn: 'root'
 })
 export class ProductService {
-  private apiUrl = 'https://api.example.com/products';
+  private apiUrl = 'https://fakestoreapi.com/products';
 
   constructor(private http: HttpClient) {}
 
@@ -174,9 +171,11 @@ export class ProductService {
 // === ARCHIVO: src/app/models/product.model.ts ===
 export interface Product {
   id: number;
-  name: string;
-  description: string;
+  title: string;
   price: number;
+  description: string;
+  category: string;
+  image: string;
 }
 
 // === ARCHIVO: src/environments/environment.ts ===
