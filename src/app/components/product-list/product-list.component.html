@@ -1,5 +1,28 @@
-<div *ngFor="let product of products">
-  <h2>{{ product.title }}</h2>
-  <p>{{ product.description }}</p>
-  <p>{{ product.price | currency }}</p>
-</div>
+<section class="catalog">
+  <header class="catalog__header">
+    <h1 class="catalog__title">Productos</h1>
+    <span class="catalog__count" *ngIf="products.length">{{ products.length }} artículos</span>
+  </header>
+
+  <ul class="catalog__grid">
+    <li class="card" *ngFor="let product of products; trackBy: trackById">
+      <div class="card__media">
+        <img
+          class="card__image"
+          [src]="product.image"
+          [alt]="product.title"
+          width="400"
+          height="400"
+          loading="lazy"
+          decoding="async">
+      </div>
+
+      <div class="card__body">
+        <span class="card__category">{{ product.category }}</span>
+        <h2 class="card__title">{{ product.title }}</h2>
+        <p class="card__description">{{ product.description }}</p>
+        <p class="card__price">{{ product.price | currency }}</p>
+      </div>
+    </li>
+  </ul>
+</section>

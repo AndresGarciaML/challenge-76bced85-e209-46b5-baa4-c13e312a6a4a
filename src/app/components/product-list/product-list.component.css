@@ -1,0 +1,144 @@
+.catalog {
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  padding: var(--spacing-64) var(--spacing-16);
+}
+
+/* Category Section Header */
+.catalog__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-12);
+  margin-bottom: var(--spacing-24);
+}
+
+.catalog__title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.05em;
+}
+
+.catalog__count {
+  font-size: var(--text-body-sm);
+  font-weight: 500;
+  letter-spacing: -0.017em;
+  color: var(--color-muted-gray);
+}
+
+.catalog__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--spacing-24) var(--element-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (max-width: 1024px) {
+  .catalog__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .catalog {
+    padding-top: var(--spacing-24);
+  }
+
+  .catalog__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 420px) {
+  .catalog__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Floating product card: white surface, 28px radius, shadow only (no border) */
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-pure-white);
+  border-radius: var(--radius-cards);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+/* 1:1 image inset by 8px so the 20px inner radius leaves a white frame */
+.card__media {
+  margin: var(--spacing-8) var(--spacing-8) 0;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-image);
+  background: var(--color-pure-white);
+  overflow: hidden;
+}
+
+.card__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: var(--spacing-24);
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .card__image {
+  transform: scale(1.04);
+}
+
+.card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  padding: var(--spacing-12) var(--spacing-16) var(--spacing-16);
+}
+
+.card__category {
+  font-size: var(--text-caption);
+  font-weight: 500;
+  letter-spacing: -0.017em;
+  text-transform: capitalize;
+  color: var(--color-muted-gray);
+}
+
+.card__title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 0;
+  font-size: var(--text-body);
+  font-weight: 600;
+  line-height: var(--leading);
+  letter-spacing: -0.014em;
+}
+
+.card__description {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 0;
+  font-size: var(--text-body-sm);
+  letter-spacing: -0.017em;
+  color: var(--color-muted-gray);
+}
+
+.card__price {
+  margin: auto 0 0;
+  padding-top: var(--spacing-8);
+  font-size: var(--text-body-lg);
+  letter-spacing: -0.031em;
+}

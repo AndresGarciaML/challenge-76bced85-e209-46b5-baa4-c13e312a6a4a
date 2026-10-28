@@ -2,8 +2,12 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": []
+    // "node" da los tipos de Node.js (process, import.meta, node:path...)
+    // que usa server.ts.
+    "types": ["node"]
   },
-  "files": ["src/main.ts"],
+  // Además del punto de entrada del navegador se compilan los del servidor:
+  // main.server.ts (la app para Node) y server.ts (el servidor Express).
+  "files": ["src/main.ts", "src/main.server.ts", "server.ts"],
   "include": ["src/**/*.d.ts"]
 }
