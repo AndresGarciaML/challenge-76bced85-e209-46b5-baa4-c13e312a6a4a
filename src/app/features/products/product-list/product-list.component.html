@@ -1,0 +1,33 @@
+<section class="catalog">
+  <header class="catalog__header">
+    <h1 class="catalog__title">Productos</h1>
+    @if (products.length) {
+      <span class="catalog__count">{{ products.length }} artículos</span>
+    }
+  </header>
+
+  <ul class="catalog__grid">
+    @for (product of products; track trackById($index, product)) {
+      <li class="card">
+        <a class="card__link" [routerLink]="['/products', product.id]">
+          <div class="card__media">
+            <img
+              class="card__image"
+              [src]="product.image"
+              [alt]="product.title"
+              width="400"
+              height="400"
+              loading="lazy"
+              decoding="async">
+          </div>
+          <div class="card__body">
+            <span class="card__category">{{ product.category }}</span>
+            <h2 class="card__title">{{ product.title }}</h2>
+            <p class="card__description">{{ product.description }}</p>
+            <p class="card__price">{{ product.price | currency }}</p>
+          </div>
+        </a>
+      </li>
+    }
+  </ul>
+</section>

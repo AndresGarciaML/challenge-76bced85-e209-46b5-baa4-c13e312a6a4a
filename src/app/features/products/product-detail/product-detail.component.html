@@ -1,0 +1,38 @@
+<section class="detail">
+  <a class="back" routerLink="/products">← Volver al catálogo</a>
+
+  @if (product) {
+    <article class="product">
+      <div class="product__media">
+        <img
+          class="product__image"
+          [src]="product.image"
+          [alt]="product.title"
+          width="600"
+          height="600"
+          fetchpriority="high">
+      </div>
+
+      <div class="product__info">
+        <span class="product__category">{{ product.category }}</span>
+        <h1 class="product__title">{{ product.title }}</h1>
+
+        @if (product.rating) {
+          <p class="product__rating">
+            ★ {{ product.rating.rate | number: '1.1-1' }}
+            <span class="product__reviews">· {{ product.rating.count }} reseñas</span>
+          </p>
+        }
+
+        <p class="product__price">{{ product.price | currency }}</p>
+        <p class="product__description">{{ product.description }}</p>
+      </div>
+    </article>
+  } @else if (notFound) {
+    <div class="empty">
+      <h1 class="empty__title">Producto no encontrado</h1>
+      <p class="empty__text">El producto que buscas no existe o ya no está disponible.</p>
+      <a class="empty__cta" routerLink="/products">Ver todos los productos</a>
+    </div>
+  }
+</section>

@@ -1,0 +1,127 @@
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-16);
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 80px var(--spacing-16) var(--spacing-64);
+  text-align: center;
+}
+
+.hero__title {
+  margin: 0;
+  font-size: clamp(32px, 6vw, 52px);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.05em;
+  text-wrap: balance;
+}
+
+.hero__lede {
+  max-width: 52ch;
+  margin: 0;
+  font-size: var(--text-body-lg);
+  color: var(--color-muted-gray);
+}
+
+/* Acción principal: el único elemento con el acento violeta y su sombra teñida */
+.hero__cta {
+  margin-top: var(--spacing-8);
+  padding: 14px 28px;
+  border-radius: var(--radius-chips);
+  background: var(--color-shop-violet);
+  box-shadow: var(--shadow-accent);
+  font-size: var(--text-body-lg);
+  color: var(--color-pure-white);
+  text-decoration: none;
+}
+
+.hero__cta:focus-visible {
+  outline: 2px solid var(--color-ink-black);
+  outline-offset: 3px;
+}
+
+.strategies {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-24);
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-16) var(--spacing-64);
+}
+
+.strategies__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.strategies__title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.05em;
+}
+
+.strategies__lede {
+  margin: 0;
+  font-size: var(--text-body);
+  color: var(--color-muted-gray);
+}
+
+.strategies__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--element-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (max-width: 768px) {
+  .strategies__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.strategy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+  padding: var(--spacing-24);
+  border-radius: var(--radius-cards);
+  background: var(--color-pure-white);
+  box-shadow: var(--shadow-card);
+}
+
+.strategy__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-8);
+}
+
+.strategy__page {
+  font-size: var(--text-body-lg);
+  font-weight: 600;
+}
+
+.strategy__mode {
+  padding: 2px 10px;
+  border: 1px solid var(--color-faint-border);
+  border-radius: var(--radius-chips);
+  font-size: var(--text-body-sm);
+  font-weight: 500;
+}
+
+.strategy__route {
+  font-size: var(--text-body-sm);
+  color: var(--color-muted-gray);
+}
+
+.strategy__description {
+  margin: 0;
+  font-size: var(--text-body);
+  color: var(--color-muted-gray);
+}

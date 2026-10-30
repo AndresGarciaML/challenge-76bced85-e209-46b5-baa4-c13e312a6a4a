@@ -1,0 +1,25 @@
+<section class="hero">
+  <h1 class="hero__title">Todo lo que buscas, en un solo lugar</h1>
+  <p class="hero__lede">Ropa, joyería y electrónica seleccionadas para ti. Explora el catálogo y descubre cada producto en detalle.</p>
+  <a class="hero__cta" routerLink="/products">Ver productos</a>
+</section>
+
+<section class="strategies">
+  <header class="strategies__header">
+    <h2 class="strategies__title">Cómo se renderiza cada página</h2>
+    <p class="strategies__lede">Cada ruta usa la estrategia que mejor encaja con su contenido.</p>
+  </header>
+
+  <ul class="strategies__grid">
+    @for (strategy of strategies; track strategy.route) {
+      <li class="strategy">
+        <div class="strategy__top">
+          <span class="strategy__page">{{ strategy.page }}</span>
+          <span class="strategy__mode">{{ strategy.mode }}</span>
+        </div>
+        <code class="strategy__route">{{ strategy.route }}</code>
+        <p class="strategy__description">{{ strategy.description }}</p>
+      </li>
+    }
+  </ul>
+</section>

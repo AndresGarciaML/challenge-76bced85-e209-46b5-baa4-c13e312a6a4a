@@ -21,9 +21,12 @@
             "styles": ["src/styles.css"],
             "scripts": [],
             "server": "src/main.server.ts",
-            "prerender": false,
+            "outputMode": "server",
             "ssr": {
               "entry": "server.ts"
+            },
+            "security": {
+              "allowedHosts": ["localhost"]
             }
           },
           "configurations": {
@@ -51,6 +54,32 @@
           "defaultConfiguration": "development"
         }
       }
+    }
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "type": "component"
+    },
+    "@schematics/angular:directive": {
+      "type": "directive"
+    },
+    "@schematics/angular:service": {
+      "type": "service"
+    },
+    "@schematics/angular:guard": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:module": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:resolver": {
+      "typeSeparator": "."
     }
   }
 }

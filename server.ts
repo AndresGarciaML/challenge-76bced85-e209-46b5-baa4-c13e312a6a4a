@@ -1,78 +1,61 @@
 /**
  * Servidor Express que ejecuta la aplicación Angular en Node.js (SSR).
  *
- * Por cada petición, Angular renderiza la página en el servidor y devuelve
- * HTML completo con los productos ya pintados. Así el usuario ve contenido
- * antes de que descargue y ejecute el JavaScript, y los buscadores pueden
- * indexar la página sin ejecutar JS (mejor SEO y primer pintado más rápido
- * que con CSR puro).
+ * Usa AngularNodeAppEngine, que lee las rutas de servidor
+ * (src/app/app.routes.server.ts) y decide por cada URL cómo responder:
+ * - Prerender: devuelve el HTML generado en el build (p. ej. la landing).
+ * - Server: renderiza la página en esta petición (catálogo y detalle).
+ * - Client: devuelve el shell para que el navegador lo pinte todo.
+ * También aplica el status HTTP que fije la app (p. ej. 404 vía RESPONSE_INIT).
  *
  * angular.json declara este archivo en "ssr.entry", por lo que `ng build`
  * lo compila a dist/rendering-techniques/server/server.mjs
  * (se arranca con `npm run serve:ssr`).
  */
-import { APP_BASE_HREF } from '@angular/common';
-import { CommonEngine } from '@angular/ssr';
+import {
+  AngularNodeAppEngine,
+  createNodeRequestHandler,
+  isMainModule,
+  writeResponseToNodeResponse
+} from '@angular/ssr/node';
 import express from 'express';
-import { fileURLToPath } from 'node:url';
-import { dirname, join, resolve } from 'node:path';
-import AppServerModule from './src/main.server';
+import { join } from 'node:path';
 
-// Se exporta la app de Express para poder reutilizarla, p. ej. en funciones serverless.
-export function app(): express.Express {
-  const server = express();
+// El build deja browser/ y server/ como carpetas hermanas dentro de dist/.
+const browserDistFolder = join(import.meta.dirname, '../browser');
 
-  // Rutas calculadas desde la ubicación del bundle compilado (dist/.../server),
-  // no desde el código fuente: el build deja browser/ y server/ como carpetas hermanas.
-  const serverDistFolder = dirname(fileURLToPath(import.meta.url));
-  const browserDistFolder = resolve(serverDistFolder, '../browser');
-  // Plantilla HTML que genera el build específicamente para renderizar en servidor.
-  const indexHtml = join(serverDistFolder, 'index.server.html');
+const app = express();
+const angularApp = new AngularNodeAppEngine();
 
-  // Motor de Angular que renderiza un módulo a HTML en Node.js.
-  const commonEngine = new CommonEngine();
-
-  server.set('view engine', 'html');
-  server.set('views', browserDistFolder);
-
-  // Los archivos estáticos (JS, CSS, assets) se sirven directamente desde
-  // /browser sin pasar por Angular. Llevan hash en el nombre, así que se
-  // pueden cachear un año. Como prerender está desactivado no existe
-  // browser/index.html, por lo que "/" no se resuelve aquí y cae en el
-  // renderizado SSR de abajo.
-  server.get('**', express.static(browserDistFolder, {
+// Los archivos estáticos (JS, CSS, assets) se sirven directamente desde
+// /browser sin pasar por Angular. Llevan hash en el nombre, así que se pueden
+// cachear un año. index: false evita que Express responda "/" con un HTML
+// por su cuenta: esa decisión la toma el motor según las rutas de servidor.
+app.use(
+  express.static(browserDistFolder, {
     maxAge: '1y',
-    index: 'index.html'
-  }));
+    index: false,
+    redirect: false
+  })
+);
 
-  // Cualquier otra ruta se renderiza con Angular en el servidor.
-  server.get('**', (req, res, next) => {
-    const { protocol, originalUrl, baseUrl, headers } = req;
+// Cualquier otra petición la resuelve Angular según su modo de renderizado.
+app.use((req, res, next) => {
+  angularApp
+    .handle(req)
+    .then((response) => (response ? writeResponseToNodeResponse(response, res) : next()))
+    .catch(next);
+});
 
-    commonEngine
-      .render({
-        bootstrap: AppServerModule,
-        documentFilePath: indexHtml,
-        // URL absoluta de la petición: el router y HttpClient la necesitan
-        // en el servidor porque ahí no existe window.location.
-        url: `${protocol}://${headers.host}${originalUrl}`,
-        publicPath: browserDistFolder,
-        providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }]
-      })
-      .then((html) => res.send(html))
-      .catch((err) => next(err));
-  });
-
-  return server;
-}
-
-function run(): void {
+// Solo se escucha en un puerto cuando el archivo se ejecuta directamente
+// (node server.mjs). Si lo importa otro proceso, p. ej. el dev server de
+// Angular o una plataforma serverless, se usa reqHandler.
+if (isMainModule(import.meta.url)) {
   const port = process.env['PORT'] || 4000;
-
-  const server = app();
-  server.listen(port, () => {
+  app.listen(port, () => {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
 }
 
-run();
+// Handler que usan `ng serve` y las plataformas de despliegue.
+export const reqHandler = createNodeRequestHandler(app);
