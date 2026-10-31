@@ -6,7 +6,7 @@ import { LandingComponent } from './landing.component';
 
 // Se prerenderiza en build (RenderMode.Prerender en app.routes.server.ts).
 const routes: Routes = [
-  { path: '', component: LandingComponent }
+  { path: '', component: LandingComponent, title: 'Landing Page' }
 ];
 
 @NgModule({

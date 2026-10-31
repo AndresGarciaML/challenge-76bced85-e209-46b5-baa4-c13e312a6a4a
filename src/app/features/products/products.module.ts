@@ -8,7 +8,7 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 // Ambas rutas se renderizan en el servidor en cada petición
 // (RenderMode.Server en app.routes.server.ts).
 const routes: Routes = [
-  { path: '', component: ProductListComponent },
+  { path: '', component: ProductListComponent, title: 'Product List' },
   { path: ':id', component: ProductDetailComponent }
 ];
 

@@ -37,6 +37,7 @@ export class ProductDetailComponent implements OnInit {
           // etiquetas quedan escritas en el HTML que leen los buscadores.
           this.title.setTitle(`${product.title} | Tienda`);
           this.meta.updateTag({ name: 'description', content: product.description });
+          this.meta.updateTag({ property: 'og:image', content: product.image });
         } else {
           this.title.setTitle('Producto no encontrado | Tienda');
           // Evita un "soft 404": la página de error responde con status 404, no 200.
