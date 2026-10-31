@@ -17,7 +17,13 @@ export const routes: Routes = [
     path: 'cart',
     loadChildren: () => import('./features/cart/cart.module').then(m => m.CartModule)
   },
-  { path: '**', redirectTo: '' }
+  // Cualquier URL desconocida muestra la página 404 en lugar de redirigir a la
+  // landing: así el usuario sabe que la dirección no existe y el servidor
+  // puede responder con status 404 (evita un "soft 404" para los buscadores).
+  {
+    path: '**',
+    loadChildren: () => import('./features/not-found/not-found.module').then(m => m.NotFoundModule)
+  }
 ];
 
 @NgModule({

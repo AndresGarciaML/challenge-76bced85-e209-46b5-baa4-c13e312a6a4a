@@ -20,5 +20,6 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'products', renderMode: RenderMode.Server },
   { path: 'products/:id', renderMode: RenderMode.Server },
   { path: 'cart', renderMode: RenderMode.Client },
-  { path: '**', renderMode: RenderMode.Server }
+  // Rutas desconocidas: NotFoundModule renderizado en servidor con status 404.
+  { path: '**', renderMode: RenderMode.Server, status: 404 }
 ];

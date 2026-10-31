@@ -1,0 +1,42 @@
+.not-found {
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  padding: var(--spacing-24) var(--spacing-16) var(--spacing-64);
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-12);
+  padding: var(--spacing-64) var(--spacing-24);
+  border-radius: var(--radius-cards);
+  background: var(--color-pure-white);
+  box-shadow: var(--shadow-card);
+}
+
+.empty__code {
+  font-size: var(--text-body-sm);
+  font-weight: 500;
+  color: var(--color-shop-violet);
+}
+
+.empty__title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.05em;
+}
+
+.empty__text {
+  margin: 0;
+  color: var(--color-muted-gray);
+}
+
+.empty__cta {
+  padding: 10px var(--spacing-24);
+  border-radius: var(--radius-chips);
+  background: var(--color-ink-black);
+  color: var(--color-pure-white);
+  text-decoration: none;
+}
