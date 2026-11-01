@@ -1,4 +1,7 @@
-import { RenderMode, ServerRoute } from '@angular/ssr';
+import { inject } from '@angular/core';
+import { PrerenderFallback, RenderMode, ServerRoute } from '@angular/ssr';
+import { ProductService } from './services/product.service';
+import { firstValueFrom } from 'rxjs';
 
 /**
  * Estrategia de renderizado por ruta (hybrid rendering).
@@ -18,7 +21,17 @@ import { RenderMode, ServerRoute } from '@angular/ssr';
 export const serverRoutes: ServerRoute[] = [
   { path: '', renderMode: RenderMode.Prerender },
   { path: 'products', renderMode: RenderMode.Server },
-  { path: 'products/:id', renderMode: RenderMode.Server },
+    {
+    path: 'products/:id',
+    renderMode: RenderMode.Prerender,
+    fallback: PrerenderFallback.Server, // ids no listados -> SSR en cada petición
+    async getPrerenderParams() {
+      // inject() debe llamarse antes del primer await
+      const productService = inject(ProductService);
+      const products = await firstValueFrom(productService.getProducts());
+      return products.slice(0, 5).map(p => ({ id: String(p.id) }));
+    }
+  },
   { path: 'cart', renderMode: RenderMode.Client },
   // Rutas desconocidas: NotFoundModule renderizado en servidor con status 404.
   { path: '**', renderMode: RenderMode.Server, status: 404 }

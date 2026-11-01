@@ -26,9 +26,12 @@ import { AppComponent } from './app.component';
     provideHttpClient(withFetch()),
     // Hidratación: el navegador reutiliza el DOM que ya llegó renderizado
     // desde el servidor en lugar de destruirlo y volver a pintarlo (evita
-    // parpadeos). También activa la caché de transferencia HTTP: la respuesta
-    // de la API obtenida en el servidor viaja en el HTML, así que el cliente
-    // no vuelve a pedir los productos al arrancar.
+    // parpadeos). También activa la caché de transferencia HTTP: cada GET que
+    // se hace en el servidor viaja serializado en el HTML (<script id="ng-state">)
+    // y, al hidratar, HttpClient lo lee de ahí en lugar de repetir la petición.
+    // Así la carga inicial solo pide datos a la API desde el servidor.
+    // No usar withNoHttpTransferCache(): obligaría al navegador a repetir
+    // todas las peticiones que ya hizo el servidor.
     provideClientHydration()
   ],
   bootstrap: [AppComponent]

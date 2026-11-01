@@ -94,6 +94,29 @@
   letter-spacing: -0.05em;
 }
 
+.specs {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-body);
+}
+
+.specs th,
+.specs td {
+  padding: var(--spacing-8) 0;
+  border-top: 1px solid var(--color-faint-border);
+  text-align: left;
+}
+
+.specs th {
+  width: 40%;
+  font-weight: 500;
+  color: var(--color-muted-gray);
+}
+
+.specs td {
+  text-transform: capitalize;
+}
+
 .product__description {
   margin: 0;
   padding-top: var(--spacing-12);

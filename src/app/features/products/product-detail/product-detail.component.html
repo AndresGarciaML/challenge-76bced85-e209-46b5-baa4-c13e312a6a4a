@@ -25,6 +25,23 @@
         }
 
         <p class="product__price">{{ product.price | currency }}</p>
+
+        <table class="specs">
+          <tbody>
+            <tr>
+            <th>Categoría</th>
+            <td>{{ product.category }}</td>
+          </tr>
+          <tr>
+            <th>Valoración</th>
+            <td>{{ product.rating ? (product.rating.rate | number: '1.1-1') : '—' }}</td>
+          </tr>
+          <tr>
+            <th>Reseñas</th>
+            <td>{{ product.rating?.count ?? '—' }}</td>
+          </tr>
+          </tbody>
+        </table>
         <p class="product__description">{{ product.description }}</p>
       </div>
     </article>
