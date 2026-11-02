@@ -20,19 +20,24 @@ import { firstValueFrom } from 'rxjs';
  */
 export const serverRoutes: ServerRoute[] = [
   { path: '', renderMode: RenderMode.Prerender },
-  { path: 'products', renderMode: RenderMode.Server },
-    {
+  { path: 'products', renderMode: RenderMode.Server, headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300' } },
+  // {
+  //   path: 'products/:id',
+  //   renderMode: RenderMode.Prerender,
+  //   fallback: PrerenderFallback.Server, // ids no listados -> SSR en cada petición
+  //   async getPrerenderParams() {
+  //     // inject() debe llamarse antes del primer await
+  //     const productService = inject(ProductService);
+  //     const products = await firstValueFrom(productService.getProducts());
+  //     return products.slice(0, 5).map(p => ({ id: String(p.id) }));
+  //   }
+  // },
+  {
     path: 'products/:id',
-    renderMode: RenderMode.Prerender,
-    fallback: PrerenderFallback.Server, // ids no listados -> SSR en cada petición
-    async getPrerenderParams() {
-      // inject() debe llamarse antes del primer await
-      const productService = inject(ProductService);
-      const products = await firstValueFrom(productService.getProducts());
-      return products.slice(0, 5).map(p => ({ id: String(p.id) }));
-    }
+    renderMode: RenderMode.Server,
+    headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' }
   },
-  { path: 'cart', renderMode: RenderMode.Client },
+  { path: 'cart', renderMode: RenderMode.Client, headers: { 'Cache-Control': 'no-store' } },
   // Rutas desconocidas: NotFoundModule renderizado en servidor con status 404.
   { path: '**', renderMode: RenderMode.Server, status: 404 }
 ];
