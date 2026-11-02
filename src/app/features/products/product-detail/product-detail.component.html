@@ -45,6 +45,30 @@
         <p class="product__description">{{ product.description }}</p>
       </div>
     </article>
+
+    @defer (on viewport) {
+      <app-related-products 
+        [category]="product.category" 
+        [excludeId]="product.id">
+      </app-related-products>
+    } @placeholder {
+      <!-- Esqueleto con la misma estructura que RelatedProductsComponent para
+           que no haya salto de layout al cargar. Debe ser un único elemento
+           raíz: "on viewport" observa ese nodo para disparar la carga. -->
+      <section class="related-skeleton" aria-busy="true" aria-label="Cargando productos relacionados">
+        <h2 class="related-skeleton__title">Productos relacionados</h2>
+        <ul class="related-skeleton__grid">
+          @for (i of [1, 2, 3, 4]; track i) {
+            <li class="skeleton-card">
+              <div class="skeleton skeleton-card__image"></div>
+              <div class="skeleton skeleton-card__line"></div>
+              <div class="skeleton skeleton-card__line skeleton-card__line--short"></div>
+              <div class="skeleton skeleton-card__price"></div>
+            </li>
+          }
+        </ul>
+      </section>
+    }
   } @else if (notFound) {
     <div class="empty">
       <h1 class="empty__title">Producto no encontrado</h1>

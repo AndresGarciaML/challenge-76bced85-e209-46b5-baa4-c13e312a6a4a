@@ -1,0 +1,23 @@
+<section class="related">
+  <h2 class="related__title">Productos relacionados</h2>
+
+  @if (products(); as products) {
+    @if (products.length) {
+      <ul class="related__grid">
+        @for (product of products; track product.id) {
+          <li class="card">
+            <a class="card__link" [routerLink]="['/products', product.id]">
+              <img class="card__image" [src]="product.image" [alt]="product.title" width="200" height="200" loading="lazy">
+              <h3 class="card__title">{{ product.title }}</h3>
+              <p class="card__price">{{ product.price | currency }}</p>
+            </a>
+          </li>
+        }
+      </ul>
+    } @else {
+      <p class="related__empty">No hay otros productos en esta categoría.</p>
+    }
+  } @else {
+    <p class="related__empty">Cargando productos relacionados…</p>
+  }
+</section>
