@@ -4,6 +4,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import { switchMap } from 'rxjs/operators';
 import { ProductService } from '../../../services/product.service';
 import { Product } from '../../../models/product.model';
+import { RecentlyViewedService } from '../../../services/recently-viewed.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -18,6 +19,7 @@ export class ProductDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
+    private recentlyViewedService: RecentlyViewedService,
     private title: Title,
     private meta: Meta,
     // Solo existe durante el render en servidor: permite fijar el status HTTP
@@ -33,11 +35,13 @@ export class ProductDetailComponent implements OnInit {
         this.notFound = !product;
 
         if (product) {
+
           // Title y Meta funcionan también en el servidor, así que estas
           // etiquetas quedan escritas en el HTML que leen los buscadores.
           this.title.setTitle(`${product.title} | Tienda`);
           this.meta.updateTag({ name: 'description', content: product.description });
           this.meta.updateTag({ property: 'og:image', content: product.image });
+          this.recentlyViewedService.add(product);
         } else {
           this.title.setTitle('Producto no encontrado | Tienda');
           // Evita un "soft 404": la página de error responde con status 404, no 200.

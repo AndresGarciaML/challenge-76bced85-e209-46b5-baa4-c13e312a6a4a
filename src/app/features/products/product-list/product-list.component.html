@@ -6,6 +6,29 @@
     }
   </header>
 
+  @if (recentlyViewed().length) {
+    <section class="recently-viewed">
+      <h2 class="recently-viewed__title">Vistos recientemente</h2>
+      <ul class="recently-viewed__list">
+        @for (product of recentlyViewed(); track trackById($index, product)) {
+          <li class="recently-viewed__item">
+            <a class="recently-viewed__link" [routerLink]="['/products', product.id]">
+              <img
+                class="recently-viewed__image"
+                [src]="product.image"
+                [alt]="product.title"
+                width="100"
+                height="100"
+                loading="lazy"
+                decoding="async">
+              <span class="recently-viewed__title">{{ product.title }}</span>
+            </a>
+          </li>
+        }
+      </ul>
+    </section>
+  }
+
   <ul class="catalog__grid">
     @for (product of products; track trackById($index, product)) {
       <li class="card">
