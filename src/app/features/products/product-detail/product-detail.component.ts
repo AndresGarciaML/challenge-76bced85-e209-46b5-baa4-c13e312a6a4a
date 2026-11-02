@@ -1,16 +1,20 @@
 import { Component, Inject, OnInit, Optional, RESPONSE_INIT } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { CurrencyPipe, DecimalPipe } from '@angular/common';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { switchMap } from 'rxjs/operators';
 import { ProductService } from '../../../services/product.service';
 import { Product } from '../../../models/product.model';
 import { RecentlyViewedService } from '../../../services/recently-viewed.service';
+import { RelatedProductsComponent } from '../related-products/related-products.component';
 
+// Standalone para poder usar hidratación incremental (@defer con hydrate):
+// el componente diferido debe importarse directamente aquí, no vía NgModule.
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.css'],
-  standalone: false
+  imports: [RouterLink, CurrencyPipe, DecimalPipe, RelatedProductsComponent]
 })
 export class ProductDetailComponent implements OnInit {
   product: Product | null = null;

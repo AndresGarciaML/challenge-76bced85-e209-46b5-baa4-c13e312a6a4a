@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RenderStatsService } from './services/render-stats.service';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ import { Component } from '@angular/core';
     <main>
       <router-outlet></router-outlet>
     </main>
+    <footer class="stats">Render global nº {{ stats.total }} · por instancia: {{ stats.perInstance }}</footer>
   `,
   styles: [`
     .topbar {
@@ -59,4 +61,6 @@ import { Component } from '@angular/core';
   `],
   standalone: false
 })
-export class AppComponent {}
+export class AppComponent {
+   constructor(public stats: RenderStatsService) {}
+}

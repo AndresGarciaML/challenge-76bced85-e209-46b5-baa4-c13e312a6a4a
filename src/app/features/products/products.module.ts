@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ProductListComponent } from './product-list/product-list.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
-import { RelatedProductsComponent } from './related-products/related-products.component';
 
 // Ambas rutas se renderizan en el servidor en cada petición
 // (RenderMode.Server en app.routes.server.ts).
@@ -15,14 +14,13 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    ProductListComponent,
-    ProductDetailComponent
+    ProductListComponent
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
     // Los componentes standalone no se declaran: se importan como un módulo.
-    RelatedProductsComponent
+    ProductDetailComponent
   ]
 })
 export class ProductsModule {}

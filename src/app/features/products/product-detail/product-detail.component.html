@@ -46,7 +46,7 @@
       </div>
     </article>
 
-    @defer (on viewport) {
+    @defer (hydrate on viewport) {
       <app-related-products 
         [category]="product.category" 
         [excludeId]="product.id">

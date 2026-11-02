@@ -27,7 +27,6 @@ export class RelatedProductsComponent implements OnInit {
           .slice(0, 4)),
         // Simula una API lenta. Sin @defer, el SSR espera estos 2 s antes de
         // enviar el HTML, porque la página no es "estable" hasta que termina.
-        delay(2000)
       )
       .subscribe(products => this.products.set(products));
   }
