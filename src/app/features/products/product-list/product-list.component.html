@@ -29,6 +29,14 @@
     </section>
   }
 
+  @if (loadError) {
+    <div class="error" role="alert">
+      <h2 class="error__title">No se pudieron cargar los productos</h2>
+      <p class="error__text">El servidor tardó demasiado en responder. Inténtalo de nuevo.</p>
+      <button type="button" class="error__cta" (click)="load()">Reintentar</button>
+    </div>
+  }
+
   <ul class="catalog__grid">
     @for (product of products; track trackById($index, product)) {
       <li class="card">

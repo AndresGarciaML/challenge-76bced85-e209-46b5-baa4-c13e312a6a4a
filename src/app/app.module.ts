@@ -1,5 +1,5 @@
 import { NgModule, provideZoneChangeDetection } from '@angular/core';
-import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
+import { BrowserModule, provideClientHydration, withIncrementalHydration } from '@angular/platform-browser';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -32,7 +32,7 @@ import { AppComponent } from './app.component';
     // Así la carga inicial solo pide datos a la API desde el servidor.
     // No usar withNoHttpTransferCache(): obligaría al navegador a repetir
     // todas las peticiones que ya hizo el servidor.
-    provideClientHydration()
+    provideClientHydration(withIncrementalHydration())
   ],
   bootstrap: [AppComponent]
 })
